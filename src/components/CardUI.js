@@ -4,7 +4,6 @@ import {
     withStyles,
     Card,
     CardActionArea,
-    CardActions,
     CardContent,
     CardMedia,
     Typography,
@@ -14,6 +13,7 @@ import {
 const styles = theme => ({
     cardStyle: {
         maxWidth: 300,
+        padding : theme.spacing(2),
         color: "#FFF",
         backgroundColor: "#8C8C8C"
     }
@@ -23,7 +23,7 @@ class CardUI extends Component {
     render() {
 
         const { classes, id, title, url, poster } = this.props;
-        console.log(classes);
+        
         return (
             <Card className={classes.cardStyle}>
                 <CardActionArea>

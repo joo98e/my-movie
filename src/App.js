@@ -1,5 +1,11 @@
 import React from 'react';
-import { Button, Typography } from '@material-ui/core';
+import {
+  Button,
+  Typography,
+  Grid,
+  Paper,
+  makeStyles
+} from '@material-ui/core';
 import axios from 'axios';
 
 import CardUI from './components/CardUI';
@@ -9,6 +15,13 @@ import CardUI from './components/CardUI';
 // App.PropTypes = {
 //     id : PropTypes.number
 // }
+const useStyles = makeStyles((theme) => ({
+  paper : {
+    width: 300,
+    height : 400
+  }
+}));
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,15 +32,18 @@ export default class App extends React.Component {
     }
   }
 
+  // arrow fn bind completed
   getMovies = async () => {
     const { data: { data: { movies } } } = await axios.get('https://yts.mx/api/v2/list_movies.json?sort_by=rating');
     this.setState({ movies, isLoading: false });
-    console.log(this.state);
   }
+
+  // arrow fn bind completed
   plus = () => {
     this.setState(current => ({ num: current.num + 1 }))
   };
 
+  // arrow fn bind completed
   minus = () => {
     this.setState(current => ({ num: current.num - 1 }))
   };
@@ -51,7 +67,7 @@ export default class App extends React.Component {
     const { num, isLoading, movies } = this.state;
     return (
       <div>
-        
+
 
         <Typography>num : {num}</Typography>
         <Button onClick={this.plus} variant="contained" color="primary">
@@ -61,16 +77,27 @@ export default class App extends React.Component {
           MINUS
         </Button>
 
-        {isLoading ? "is Loading" : movies.map(movie => {
-          console.log(movies);
-          return <CardUI
-            key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            url={movie.url}
-            poster={movie.large_cover_image}
-          />
-        })}
+        {/* ────────────────────────────────────────────────────────── */}
+        <Grid
+          container
+          justify="flex-start"
+          spacing={4}
+          direction="row"
+        >
+
+          {isLoading ? "is Loading" : movies.map(movie => {
+            return <Paper key={movie.id}>
+              <Grid item xs={10}>
+                <CardUI
+                  id={movie.id}
+                  title={movie.title}
+                  url={movie.url}
+                  poster={movie.large_cover_image}
+                />
+              </Grid>
+            </Paper>
+          })}
+        </Grid>
       </div>
     )
   }
